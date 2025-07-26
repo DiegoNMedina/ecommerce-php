@@ -1,0 +1,217 @@
+/* Variables globales */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --info-color: #0dcaf0;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+}
+
+/* Header y navegación */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 0 0 2rem 2rem;
+    overflow: hidden;
+}
+
+.hero-section h1 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Tarjetas de productos */
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.card-title a {
+    color: var(--dark-color);
+}
+
+.card-title a:hover {
+    color: var(--primary-color);
+}
+
+/* Precios y mensualidades */
+.price-section {
+    margin: 1rem 0;
+}
+
+.price-section h4 {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.installments .card {
+    background-color: var(--light-color);
+}
+
+/* Categorías */
+.categories-section .card {
+    background-color: var(--light-color);
+}
+
+.categories-section .card-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Especificaciones de producto */
+.specifications table {
+    background-color: var(--light-color);
+    border-radius: 0.5rem;
+}
+
+.specifications th {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Comentarios */
+.comments-section .card {
+    margin-bottom: 1rem;
+}
+
+.rating {
+    color: var(--warning-color);
+    font-size: 1.2rem;
+}
+
+/* Paginación */
+.pagination .page-link {
+    color: var(--primary-color);
+    border: none;
+    margin: 0 0.2rem;
+    border-radius: 0.25rem;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+    border-radius: 2rem;
+}
+
+/* Botones */
+.btn {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+/* Formularios */
+.form-control, .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    padding: 4rem 0 2rem;
+    margin-top: 4rem;
+}
+
+footer a {
+    color: var(--light-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    color: var(--primary-color);
+}
+
+footer h5 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .hero-section img {
+        margin-top: 2rem;
+    }
+
+    .card-deck {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
