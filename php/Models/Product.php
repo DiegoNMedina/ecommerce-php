@@ -2,12 +2,10 @@
 
 namespace Models;
 
-class Product extends Model
-{
+class Product extends Model {
     protected string $table = 'products';
 
-    public function findWithCategories(int $id): ?array
-    {
+    public function findWithCategories(int $id): ?array {
         $sql = "SELECT p.*, GROUP_CONCAT(c.name) as categories
                 FROM products p
                 LEFT JOIN product_categories pc ON p.id = pc.product_id
@@ -20,8 +18,7 @@ class Product extends Model
         return $stmt->fetch() ?: null;
     }
 
-    public function findByCategory(int $categoryId, int $limit = 10, int $offset = 0): array
-    {
+    public function findByCategory(int $categoryId, int $limit = 10, int $offset = 0): array {
         $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating
                 FROM products p
                 JOIN product_categories pc ON p.id = pc.product_id
@@ -35,8 +32,7 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    public function search(string $query, int $limit = 10, int $offset = 0): array
-    {
+    public function search(string $query, int $limit = 10, int $offset = 0): array {
         $searchTerm = "%{$query}%";
         $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating,
                 GROUP_CONCAT(DISTINCT c.id, ':', c.name SEPARATOR '|') as categories_data
@@ -51,7 +47,7 @@ class Product extends Model
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$searchTerm, $searchTerm, $searchTerm, $limit, $offset]);
         $products = $stmt->fetchAll();
-
+        
         // Procesar las categorías para cada producto
         foreach ($products as &$product) {
             $product['categories'] = [];
@@ -66,12 +62,11 @@ class Product extends Model
             }
             unset($product['categories_data']);
         }
-
+        
         return $products;
     }
 
-    public function getRandomProducts(int $limit = 10): array
-    {
+    public function getRandomProducts(int $limit = 10): array {
         $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating
                 FROM products p
                 LEFT JOIN comments com ON p.id = com.product_id
@@ -84,8 +79,7 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    public function getMostVisited(int $limit = 10): array
-    {
+    public function getMostVisited(int $limit = 10): array {
         $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating
                 FROM products p
                 LEFT JOIN comments com ON p.id = com.product_id
@@ -98,15 +92,13 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    public function incrementVisits(int $id): bool
-    {
+    public function incrementVisits(int $id): bool {
         $sql = "UPDATE products SET visits = visits + 1 WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
     }
 
-    public function calculateInstallments(float $price, int $months): float
-    {
+    public function calculateInstallments(float $price, int $months): float {
         $stmt = $this->db->prepare("CALL calculate_installments(?, ?, @monthly_payment)");
         $stmt->execute([$price, $months]);
 
@@ -114,8 +106,7 @@ class Product extends Model
         return (float) $result['payment'];
     }
 
-    public function getComments(int $productId, int $limit = 10, int $offset = 0): array
-    {
+    public function getComments(int $productId, int $limit = 10, int $offset = 0): array {
         $sql = "SELECT * FROM comments 
                 WHERE product_id = ? 
                 ORDER BY created_at DESC 
@@ -126,8 +117,7 @@ class Product extends Model
         return $stmt->fetchAll();
     }
 
-    public function addComment(int $productId, string $name, string $comment, int $rating): int
-    {
+    public function addComment(int $productId, string $name, string $comment, int $rating): int {
         $sql = "INSERT INTO comments (product_id, name, comment, rating) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$productId, $name, $comment, $rating]);
