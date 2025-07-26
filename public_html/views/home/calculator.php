@@ -28,8 +28,8 @@
                             <label for="price" class="form-label">Precio del Producto ($)</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="price" name="price"
-                                    min="1" step="0.01" required>
+                                <input type="number" class="form-control" id="price" name="price" 
+                                       min="1" step="0.01" required>
                                 <div class="invalid-feedback">
                                     Por favor ingresa un precio válido
                                 </div>
@@ -60,7 +60,7 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <h3 class="card-title text-center mb-4">Resultado del Cálculo</h3>
-
+                            
                             <div class="row text-center">
                                 <div class="col-md-6 mb-3">
                                     <div class="p-3 border rounded bg-white">
@@ -120,16 +120,16 @@
 </div>
 
 <script>
-    // Validación del formulario
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('installmentCalculator');
-
-        form.addEventListener('submit', function(event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-    });
+// Validación del formulario
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('installmentCalculator');
+    
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    }, false);
+});
 </script>

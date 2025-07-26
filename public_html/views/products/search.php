@@ -1,5 +1,4 @@
 <?php
-
 /** @var array $products */
 /** @var string $query */
 /** @var int $total_pages */
@@ -20,12 +19,12 @@
         <div class="col-md-4">
             <form action="/ecommerce-php/search" method="GET" class="search-form">
                 <div class="input-group">
-                    <input type="text"
-                        name="q"
-                        class="form-control"
-                        placeholder="Buscar productos..."
-                        value="<?= htmlspecialchars($query) ?>"
-                        required>
+                    <input type="text" 
+                           name="q" 
+                           class="form-control" 
+                           placeholder="Buscar productos..." 
+                           value="<?= htmlspecialchars($query) ?>"
+                           required>
                     <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
@@ -55,18 +54,18 @@
                     <?php foreach ($suggested_products as $product): ?>
                         <div class="col">
                             <div class="card h-100 product-card">
-                                <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>"
-                                    class="card-img-top"
-                                    alt="<?= htmlspecialchars($product['name']) ?>">
+                                <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>" 
+                                     class="card-img-top" 
+                                     alt="<?= htmlspecialchars($product['name']) ?>">
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">
-                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                            class="text-decoration-none text-dark">
+                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                           class="text-decoration-none text-dark">
                                             <?= htmlspecialchars($product['name']) ?>
                                         </a>
                                     </h5>
                                     <p class="card-text text-muted small">
-                                        <?= htmlspecialchars($product['brand']) ?> |
+                                        <?= htmlspecialchars($product['brand']) ?> | 
                                         <?= htmlspecialchars($product['model']) ?>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-end">
@@ -76,8 +75,8 @@
                                                 desde $<?= number_format($product['monthly_payment'], 2) ?>/mes
                                             </small>
                                         </div>
-                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                            class="btn btn-outline-primary btn-sm">
+                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                           class="btn btn-outline-primary btn-sm">
                                             Ver Detalles
                                         </a>
                                     </div>
@@ -97,28 +96,28 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="filters">
-                                <button class="btn btn-outline-primary me-2 dropdown-toggle"
-                                    data-bs-toggle="dropdown">
+                                <button class="btn btn-outline-primary me-2 dropdown-toggle" 
+                                        data-bs-toggle="dropdown">
                                     <i class="fas fa-filter me-1"></i>Filtrar
                                 </button>
                                 <div class="dropdown-menu p-3" style="min-width: 300px;">
                                     <form action="/ecommerce-php/search" method="GET" id="filterForm">
                                         <input type="hidden" name="q" value="<?= htmlspecialchars($query) ?>">
-
+                                        
                                         <div class="mb-3">
                                             <label class="form-label">Rango de Precio</label>
                                             <div class="row g-2">
                                                 <div class="col">
-                                                    <input type="number"
-                                                        name="min_price"
-                                                        class="form-control"
-                                                        placeholder="Mín">
+                                                    <input type="number" 
+                                                           name="min_price" 
+                                                           class="form-control" 
+                                                           placeholder="Mín">
                                                 </div>
                                                 <div class="col">
-                                                    <input type="number"
-                                                        name="max_price"
-                                                        class="form-control"
-                                                        placeholder="Máx">
+                                                    <input type="number" 
+                                                           name="max_price" 
+                                                           class="form-control" 
+                                                           placeholder="Máx">
                                                 </div>
                                             </div>
                                         </div>
@@ -148,10 +147,10 @@
                                         </div>
 
                                         <div class="form-check mb-3">
-                                            <input type="checkbox"
-                                                name="in_stock"
-                                                class="form-check-input"
-                                                id="inStock">
+                                            <input type="checkbox" 
+                                                   name="in_stock" 
+                                                   class="form-check-input" 
+                                                   id="inStock">
                                             <label class="form-check-label" for="inStock">
                                                 Solo productos en stock
                                             </label>
@@ -186,31 +185,31 @@
                 <div class="col">
                     <div class="card h-100 product-card">
                         <div class="position-relative">
-                            <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>"
-                                class="card-img-top"
-                                alt="<?= htmlspecialchars($product['model']) ?>">
+                            <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>" 
+                                 class="card-img-top" 
+                                 alt="<?= htmlspecialchars($product['model']) ?>">
                             <div class="product-overlay">
-                                <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                    class="btn btn-primary btn-sm">
+                                <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                   class="btn btn-primary btn-sm">
                                     <i class="fas fa-eye me-1"></i>Ver Detalles
                                 </a>
                             </div>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title text-truncate">
-                                <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                    class="text-decoration-none text-dark">
+                                <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                   class="text-decoration-none text-dark">
                                     <?= htmlspecialchars($product['model']) ?>
                                 </a>
                             </h5>
                             <p class="card-text text-muted small mb-2">
-                                <?= htmlspecialchars($product['brand']) ?> |
+                                <?= htmlspecialchars($product['brand']) ?> | 
                                 <?= htmlspecialchars($product['model']) ?>
                             </p>
                             <div class="categories mb-2">
                                 <?php foreach ($product['categories'] as $category): ?>
-                                    <a href="/ecommerce-php/category/<?= $category['id'] ?>"
-                                        class="badge bg-light text-dark text-decoration-none">
+                                    <a href="/ecommerce-php/category/<?= $category['id'] ?>" 
+                                       class="badge bg-light text-dark text-decoration-none">
                                         <?= htmlspecialchars($category['name']) ?>
                                     </a>
                                 <?php endforeach; ?>
@@ -224,9 +223,9 @@
                                 </div>
                                 <div class="rating-container text-end">
                                     <div class="stars">
-                                        <?php
+                                        <?php 
                                         $rating = isset($product['avg_rating']) ? round($product['avg_rating']) : 0;
-                                        for ($i = 1; $i <= 5; $i++):
+                                        for ($i = 1; $i <= 5; $i++): 
                                         ?>
                                             <?php if ($i <= $rating): ?>
                                                 <i class="fas fa-star text-warning"></i>
@@ -246,8 +245,8 @@
                                 <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
                                     <?= $product['stock'] > 0 ? 'En Stock' : 'Agotado' ?>
                                 </span>
-                                <button class="btn btn-outline-primary btn-sm calculate-installments"
-                                    data-price="<?= $product['price'] ?>">
+                                <button class="btn btn-outline-primary btn-sm calculate-installments" 
+                                        data-price="<?= $product['price'] ?>">
                                     <i class="fas fa-calculator me-1"></i>Calcular Cuotas
                                 </button>
                             </div>
@@ -259,130 +258,130 @@
 
         <!-- Paginación -->
         <?php if ($totalPages > 1): ?>
-            <nav aria-label="Search results navigation">
-                <ul class="pagination justify-content-center">
-                    <?php if ($currentPage > 1): ?>
-                        <li class="page-item">
-                            <a class="page-link"
-                                href="?q=<?= urlencode($query) ?>&page=<?= $currentPage - 1 ?>">
-                                <i class="fas fa-chevron-left"></i>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+        <nav aria-label="Search results navigation">
+            <ul class="pagination justify-content-center">
+                <?php if ($currentPage > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" 
+                           href="?q=<?= urlencode($query) ?>&page=<?= $currentPage - 1 ?>">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
-                            <a class="page-link"
-                                href="?q=<?= urlencode($query) ?>&page=<?= $i ?>">
-                                <?= $i ?>
-                            </a>
-                        </li>
-                    <?php endfor; ?>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
+                        <a class="page-link" 
+                           href="?q=<?= urlencode($query) ?>&page=<?= $i ?>">
+                            <?= $i ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
 
-                    <?php if ($currentPage < $totalPages): ?>
-                        <li class="page-item">
-                            <a class="page-link"
-                                href="?q=<?= urlencode($query) ?>&page=<?= $currentPage + 1 ?>">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </nav>
+                <?php if ($currentPage < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" 
+                           href="?q=<?= urlencode($query) ?>&page=<?= $currentPage + 1 ?>">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
         <?php endif; ?>
     <?php endif; ?>
 </div>
 
 <style>
-    .product-card {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+.product-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
 
-    .product-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
 
-    .product-card:hover .product-overlay {
-        opacity: 1;
-    }
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
 
-    .card-img-top {
-        height: 200px;
-        object-fit: contain;
-        padding: 1rem;
-    }
+.card-img-top {
+    height: 200px;
+    object-fit: contain;
+    padding: 1rem;
+}
 
-    .stars {
-        font-size: 0.8rem;
-    }
+.stars {
+    font-size: 0.8rem;
+}
 
-    .categories .badge {
-        margin-right: 0.25rem;
-        margin-bottom: 0.25rem;
-    }
+.categories .badge {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
 
-    .categories .badge:hover {
-        background-color: var(--bs-primary) !important;
-        color: white !important;
-    }
+.categories .badge:hover {
+    background-color: var(--bs-primary) !important;
+    color: white !important;
+}
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Manejador para el ordenamiento
-        const sortSelect = document.getElementById('sortProducts');
-        if (sortSelect) {
-            sortSelect.addEventListener('change', function() {
-                const currentUrl = new URL(window.location.href);
-                currentUrl.searchParams.set('sort', this.value);
-                window.location.href = currentUrl.toString();
-            });
-        }
-
-        // Manejador para el cálculo de cuotas
-        document.querySelectorAll('.calculate-installments').forEach(button => {
-            button.addEventListener('click', function() {
-                const price = this.dataset.price;
-                window.location.href = `/ecommerce-php/calculator?price=${price}`;
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    // Manejador para el ordenamiento
+    const sortSelect = document.getElementById('sortProducts');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('sort', this.value);
+            window.location.href = currentUrl.toString();
         });
+    }
 
-        // Búsqueda en tiempo real con debounce
-        const searchInput = document.querySelector('.search-form input[name="q"]');
-        let searchTimeout;
-
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                const query = this.value.trim();
-
-                if (query.length >= 3) {
-                    searchTimeout = setTimeout(() => {
-                        fetch(`/ecommerce-php/api/search?q=${encodeURIComponent(query)}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                // Aquí podrías mostrar sugerencias de búsqueda
-                                console.log(data);
-                            })
-                            .catch(error => console.error('Error:', error));
-                    }, 300);
-                }
-            });
-        }
+    // Manejador para el cálculo de cuotas
+    document.querySelectorAll('.calculate-installments').forEach(button => {
+        button.addEventListener('click', function() {
+            const price = this.dataset.price;
+            window.location.href = `/ecommerce-php/calculator?price=${price}`;
+        });
     });
+
+    // Búsqueda en tiempo real con debounce
+    const searchInput = document.querySelector('.search-form input[name="q"]');
+    let searchTimeout;
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            if (query.length >= 3) {
+                searchTimeout = setTimeout(() => {
+                    fetch(`/ecommerce-php/api/search?q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Aquí podrías mostrar sugerencias de búsqueda
+                            console.log(data);
+                        })
+                        .catch(error => console.error('Error:', error));
+                }, 300);
+            }
+        });
+    }
+});
 </script>

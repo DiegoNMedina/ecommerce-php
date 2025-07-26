@@ -51,7 +51,7 @@
                             </a>
                         </h5>
                         <p class="card-text">
-                            <?php
+                            <?php 
                             $specs = json_decode($product['specifications'], true);
                             echo htmlspecialchars($specs['CPU'] . ' / ' . $specs['RAM']);
                             ?>
@@ -97,7 +97,7 @@
                                     </a>
                                 </h5>
                                 <p class="card-text">
-                                    <?php
+                                    <?php 
                                     $specs = json_decode($product['specifications'], true);
                                     echo htmlspecialchars($specs['CPU'] . ' / ' . $specs['RAM']);
                                     ?>

@@ -14,14 +14,14 @@ $categories = explode(',', $product['categories']);
 <div class="row">
     <div class="col-md-6 mb-4">
         <div class="product-image-gallery">
-            <img src="/ecommerce-php/assets/img/products/default.svg" class="img-fluid rounded"
-                alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>">
+            <img src="/ecommerce-php/assets/img/products/default.svg" class="img-fluid rounded" 
+                 alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>">
         </div>
     </div>
 
     <div class="col-md-6 mb-4">
         <h1 class="mb-3"><?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?></h1>
-
+        
         <div class="categories mb-3">
             <?php foreach ($categories as $category): ?>
                 <span class="badge bg-secondary me-1"><?= htmlspecialchars(trim($category)) ?></span>
@@ -37,7 +37,7 @@ $categories = explode(',', $product['categories']);
             </span>
             <?php if (isset($product['avg_rating'])): ?>
                 <span>
-                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i> 
                     <?= number_format($product['avg_rating'], 1) ?>
                 </span>
             <?php endif; ?>
@@ -100,10 +100,10 @@ $categories = explode(',', $product['categories']);
     <div class="col-md-8">
         <div class="comments-section">
             <h3>Comentarios</h3>
-
+            
             <div class="add-comment mb-4">
-                <form action="/ecommerce-php/product/<?= $product['id'] ?>/comment" method="POST"
-                    id="commentForm" class="card card-body">
+                <form action="/ecommerce-php/product/<?= $product['id'] ?>/comment" method="POST" 
+                      id="commentForm" class="card card-body">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -158,7 +158,7 @@ $categories = explode(',', $product['categories']);
                             </a>
                         </h5>
                         <p class="card-text">
-                            <?php
+                            <?php 
                             $relatedSpecs = json_decode($related['specifications'], true);
                             echo htmlspecialchars($relatedSpecs['CPU'] . ' / ' . $relatedSpecs['RAM']);
                             ?>
@@ -174,14 +174,14 @@ $categories = explode(',', $product['categories']);
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#commentForm').on('submit', function(e) {
-            e.preventDefault();
-            $.post($(this).attr('action'), $(this).serialize(), function(response) {
-                if (response.success) {
-                    location.reload();
-                }
-            });
+$(document).ready(function() {
+    $('#commentForm').on('submit', function(e) {
+        e.preventDefault();
+        $.post($(this).attr('action'), $(this).serialize(), function(response) {
+            if (response.success) {
+                location.reload();
+            }
         });
     });
+});
 </script>

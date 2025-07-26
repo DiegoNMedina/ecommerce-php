@@ -1,5 +1,4 @@
 <?php
-
 /** @var array $featured_products */
 /** @var array $most_visited_products */
 /** @var array $categories */
@@ -47,32 +46,32 @@
                                         <i class="fas fa-star me-1"></i>Destacado
                                     </span>
                                 </div>
-                                <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>"
-                                    class="card-img-top"
-                                    alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>">
+                                <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>" 
+                                     class="card-img-top" 
+                                     alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>">
                                 <div class="product-overlay">
-                                    <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                        class="btn btn-primary btn-sm">
+                                    <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                       class="btn btn-primary btn-sm">
                                         <i class="fas fa-eye me-1"></i>Ver Detalles
                                     </a>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title text-truncate">
-                                    <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                        class="text-decoration-none text-dark">
+                                    <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                       class="text-decoration-none text-dark">
                                         <?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>
                                     </a>
                                 </h5>
                                 <p class="card-text text-muted small mb-2">
-                                    <?= htmlspecialchars($product['brand'] ?? 'Sin marca') ?> |
+                                    <?= htmlspecialchars($product['brand'] ?? 'Sin marca') ?> | 
                                     <?= htmlspecialchars($product['model'] ?? 'Sin modelo') ?>
                                 </p>
                                 <div class="categories mb-2">
                                     <?php if (!empty($product['categories'])): ?>
                                         <?php foreach ($product['categories'] as $category): ?>
-                                            <a href="/ecommerce-php/category/<?= $category['id'] ?? '#' ?>"
-                                                class="badge bg-light text-dark text-decoration-none">
+                                            <a href="/ecommerce-php/category/<?= $category['id'] ?? '#' ?>" 
+                                               class="badge bg-light text-dark text-decoration-none">
                                                 <?= htmlspecialchars($category['name'] ?? 'Sin categoría') ?>
                                             </a>
                                         <?php endforeach; ?>
@@ -106,8 +105,8 @@
                                     <span class="badge bg-<?= ($product['stock'] ?? 0) > 0 ? 'success' : 'danger' ?>">
                                         <?= ($product['stock'] ?? 0) > 0 ? 'En Stock' : 'Agotado' ?>
                                     </span>
-                                    <button class="btn btn-outline-primary btn-sm calculate-installments"
-                                        data-price="<?= $product['price'] ?>">
+                                    <button class="btn btn-outline-primary btn-sm calculate-installments" 
+                                            data-price="<?= $product['price'] ?>">
                                         <i class="fas fa-calculator me-1"></i>Calcular Cuotas
                                     </button>
                                 </div>
@@ -130,12 +129,12 @@
                 <ul class="nav nav-pills justify-content-center" id="categoryTabs" role="tablist">
                     <?php foreach ($categories as $index => $category): ?>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link <?= $index === 0 ? 'active' : '' ?>"
-                                id="category-<?= $category['id'] ?>-tab"
-                                data-bs-toggle="pill"
-                                data-bs-target="#category-<?= $category['id'] ?>"
-                                type="button"
-                                role="tab">
+                            <button class="nav-link <?= $index === 0 ? 'active' : '' ?>" 
+                                    id="category-<?= $category['id'] ?>-tab" 
+                                    data-bs-toggle="pill" 
+                                    data-bs-target="#category-<?= $category['id'] ?>" 
+                                    type="button" 
+                                    role="tab">
                                 <?= htmlspecialchars($category['name'] ?? 'Sin nombre') ?>
                             </button>
                         </li>
@@ -145,25 +144,25 @@
 
             <div class="tab-content" id="categoryTabsContent">
                 <?php foreach ($categories as $index => $category): ?>
-                    <div class="tab-pane fade <?= $index === 0 ? 'show active' : '' ?>"
-                        id="category-<?= $category['id'] ?>"
-                        role="tabpanel">
+                    <div class="tab-pane fade <?= $index === 0 ? 'show active' : '' ?>" 
+                         id="category-<?= $category['id'] ?>" 
+                         role="tabpanel">
                         <div class="row row-cols-1 row-cols-md-4 g-4">
                             <?php foreach ($most_visited_products[$category['id']] as $product): ?>
                                 <div class="col">
                                     <div class="card h-100 product-card">
-                                        <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>"
-                                            class="card-img-top"
-                                            alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>">
+                                        <img src="/ecommerce-php/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>" 
+                                             class="card-img-top" 
+                                             alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>">
                                         <div class="card-body">
                                             <h5 class="card-title text-truncate">
-                                                <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                                    class="text-decoration-none text-dark">
+                                                <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                                   class="text-decoration-none text-dark">
                                                     <?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>
                                                 </a>
                                             </h5>
                                             <p class="card-text text-muted small">
-                                                <?= htmlspecialchars($product['brand'] ?? 'Sin marca') ?> |
+                                                <?= htmlspecialchars($product['brand'] ?? 'Sin marca') ?> | 
                                                 <?= htmlspecialchars($product['model'] ?? 'Sin modelo') ?>
                                             </p>
                                             <div class="d-flex justify-content-between align-items-end">
@@ -182,8 +181,8 @@
                                             </div>
                                         </div>
                                         <div class="card-footer bg-white border-top-0 text-center">
-                                            <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                                class="btn btn-outline-primary btn-sm w-100">
+                                            <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                               class="btn btn-outline-primary btn-sm w-100">
                                                 <i class="fas fa-eye me-1"></i>Ver Detalles
                                             </a>
                                         </div>
@@ -214,12 +213,12 @@
                                         <label for="price" class="form-label">Precio del Producto</label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input type="number"
-                                                class="form-control"
-                                                id="price"
-                                                name="price"
-                                                required
-                                                min="1">
+                                            <input type="number" 
+                                                   class="form-control" 
+                                                   id="price" 
+                                                   name="price" 
+                                                   required 
+                                                   min="1">
                                         </div>
                                         <div class="invalid-feedback">
                                             Por favor ingresa un precio válido
@@ -270,120 +269,118 @@
 </div>
 
 <style>
-    .hero-section {
-        position: relative;
-        overflow: hidden;
-    }
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
 
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: linear-gradient(45deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
-    }
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 100%);
+}
 
-    .product-card {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+.product-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
 
-    .product-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
 
-    .product-card:hover .product-overlay {
-        opacity: 1;
-    }
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
 
-    .card-img-top {
-        height: 200px;
-        object-fit: contain;
-        padding: 1rem;
-    }
+.card-img-top {
+    height: 200px;
+    object-fit: contain;
+    padding: 1rem;
+}
 
-    .stars {
-        font-size: 0.8rem;
-    }
+.stars {
+    font-size: 0.8rem;
+}
 
-    .categories .badge {
-        margin-right: 0.25rem;
-        margin-bottom: 0.25rem;
-    }
+.categories .badge {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
 
-    .categories .badge:hover {
-        background-color: var(--bs-primary) !important;
-        color: white !important;
-    }
+.categories .badge:hover {
+    background-color: var(--bs-primary) !important;
+    color: white !important;
+}
 
-    .category-tabs .nav-pills .nav-link {
-        color: var(--bs-dark);
-        margin: 0 0.25rem;
-    }
+.category-tabs .nav-pills .nav-link {
+    color: var(--bs-dark);
+    margin: 0 0.25rem;
+}
 
-    .category-tabs .nav-pills .nav-link.active {
-        background-color: var(--bs-primary);
-        color: white;
-    }
+.category-tabs .nav-pills .nav-link.active {
+    background-color: var(--bs-primary);
+    color: white;
+}
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Validación del formulario de calculadora
-        const form = document.getElementById('installmentCalculator');
-        const resultDiv = document.getElementById('calculationResult');
-        const monthlyPaymentEl = document.getElementById('monthlyPayment');
-        const totalPaymentEl = document.getElementById('totalPayment');
+document.addEventListener('DOMContentLoaded', function() {
+    // Validación del formulario de calculadora
+    const form = document.getElementById('installmentCalculator');
+    const resultDiv = document.getElementById('calculationResult');
+    const monthlyPaymentEl = document.getElementById('monthlyPayment');
+    const totalPaymentEl = document.getElementById('totalPayment');
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-            if (form.checkValidity()) {
-                const price = parseFloat(document.getElementById('price').value);
-                const months = parseInt(document.getElementById('months').value);
-                const annualInterest = 0.10; // 10% anual
-                const monthlyInterest = annualInterest / 12;
+        if (form.checkValidity()) {
+            const price = parseFloat(document.getElementById('price').value);
+            const months = parseInt(document.getElementById('months').value);
+            const annualInterest = 0.10; // 10% anual
+            const monthlyInterest = annualInterest / 12;
 
-                // Cálculo de pagos mensuales
-                const monthlyPayment = (price * monthlyInterest * Math.pow(1 + monthlyInterest, months)) /
-                    (Math.pow(1 + monthlyInterest, months) - 1);
-                const totalPayment = monthlyPayment * months;
+            // Cálculo de pagos mensuales
+            const monthlyPayment = (price * monthlyInterest * Math.pow(1 + monthlyInterest, months)) / 
+                                 (Math.pow(1 + monthlyInterest, months) - 1);
+            const totalPayment = monthlyPayment * months;
 
-                monthlyPaymentEl.textContent = `$${monthlyPayment.toFixed(2)}`;
-                totalPaymentEl.textContent = `$${totalPayment.toFixed(2)}`;
-                resultDiv.classList.remove('d-none');
-            }
+            monthlyPaymentEl.textContent = `$${monthlyPayment.toFixed(2)}`;
+            totalPaymentEl.textContent = `$${totalPayment.toFixed(2)}`;
+            resultDiv.classList.remove('d-none');
+        }
 
-            form.classList.add('was-validated');
-        });
+        form.classList.add('was-validated');
+    });
 
-        // Manejador para los botones de cálculo de cuotas en productos
-        document.querySelectorAll('.calculate-installments').forEach(button => {
-            button.addEventListener('click', function() {
-                const price = this.dataset.price;
-                document.getElementById('price').value = price;
-                document.getElementById('months').value = '6'; // valor por defecto
-                document.querySelector('#calculator').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+    // Manejador para los botones de cálculo de cuotas en productos
+    document.querySelectorAll('.calculate-installments').forEach(button => {
+        button.addEventListener('click', function() {
+            const price = this.dataset.price;
+            document.getElementById('price').value = price;
+            document.getElementById('months').value = '6'; // valor por defecto
+            document.querySelector('#calculator').scrollIntoView({ behavior: 'smooth' });
         });
     });
+});
 </script>

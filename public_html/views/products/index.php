@@ -1,5 +1,4 @@
 <?php
-
 /** @var array $products */
 /** @var int $currentPage */
 /** @var int $totalPages */
@@ -40,8 +39,8 @@
                                 <i class="fas fa-th-large me-2"></i>Todos los productos
                             </a>
                             <?php foreach ($categories as $category): ?>
-                                <a href="/ecommerce-php/category/<?= $category['id'] ?>"
-                                    class="list-group-item list-group-item-action">
+                                <a href="/ecommerce-php/category/<?= $category['id'] ?>" 
+                                   class="list-group-item list-group-item-action">
                                     <i class="fas fa-folder me-2"></i><?= htmlspecialchars($category['name']) ?>
                                     <?php if (isset($category['product_count'])): ?>
                                         <span class="badge bg-secondary float-end"><?= $category['product_count'] ?></span>
@@ -67,26 +66,26 @@
                                             </span>
                                         </div>
                                     <?php endif; ?>
-                                    <img src="/ecommerce-php/public_html/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>"
-                                        class="card-img-top"
-                                        alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>"
-                                        style="height: 200px; object-fit: cover;">
+                                    <img src="/ecommerce-php/public_html/assets/img/products/<?= $product['image'] ?? 'default.svg' ?>" 
+                                         class="card-img-top" 
+                                         alt="<?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>"
+                                         style="height: 200px; object-fit: cover;">
                                     <div class="product-overlay">
-                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                            class="btn btn-primary btn-sm">
+                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                           class="btn btn-primary btn-sm">
                                             <i class="fas fa-eye me-1"></i>Ver Detalles
                                         </a>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">
-                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>"
-                                            class="text-decoration-none text-dark">
+                                        <a href="/ecommerce-php/product/<?= $product['id'] ?>" 
+                                           class="text-decoration-none text-dark">
                                             <?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>
                                         </a>
                                     </h5>
                                     <p class="card-text text-muted small mb-2">
-                                        <?= htmlspecialchars($product['brand'] ?? 'Sin marca') ?> |
+                                        <?= htmlspecialchars($product['brand'] ?? 'Sin marca') ?> | 
                                         <?= htmlspecialchars($product['model'] ?? 'Sin modelo') ?>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -116,8 +115,8 @@
                                         <span class="badge bg-<?= ($product['stock'] ?? 0) > 0 ? 'success' : 'danger' ?>">
                                             <?= ($product['stock'] ?? 0) > 0 ? 'En Stock' : 'Agotado' ?>
                                         </span>
-                                        <button class="btn btn-outline-primary btn-sm calculate-installments"
-                                            data-price="<?= $product['price'] ?>">
+                                        <button class="btn btn-outline-primary btn-sm calculate-installments" 
+                                                data-price="<?= $product['price'] ?>">
                                             <i class="fas fa-calculator me-1"></i>Calcular
                                         </button>
                                     </div>
@@ -141,11 +140,11 @@
                             <?php endif; ?>
 
                             <!-- Páginas numeradas -->
-                            <?php
+                            <?php 
                             $start = max(1, $currentPage - 2);
                             $end = min($totalPages, $currentPage + 2);
                             ?>
-
+                            
                             <?php if ($start > 1): ?>
                                 <li class="page-item">
                                     <a class="page-link" href="/ecommerce-php/products?page=1">1</a>
@@ -191,40 +190,40 @@
 </div>
 
 <style>
-    .product-card {
-        transition: transform 0.2s, box-shadow 0.2s;
-        border: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
 
-    .product-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
 
-    .product-card:hover .product-overlay {
-        opacity: 1;
-    }
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
 
-    .stars {
-        font-size: 0.8rem;
-    }
+.stars {
+    font-size: 0.8rem;
+}
 
-    .featured-badge {
-        z-index: 10;
-    }
+.featured-badge {
+    z-index: 10;
+}
 </style>
