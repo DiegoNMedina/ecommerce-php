@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+    <!-- Fondo con gradiente -->
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#e3f2fd;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#bbdefb;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Laptop principal -->
+    <g transform="translate(100, 100) scale(1.2)">
+        <!-- Base de la laptop -->
+        <path d="M100 300 L500 300 L550 400 L50 400 Z" 
+              fill="#0d6efd" stroke="#0a58ca" stroke-width="2"/>
+        
+        <!-- Pantalla -->
+        <path d="M150 100 L450 100 L500 300 L100 300 Z" 
+              fill="#ffffff" stroke="#0a58ca" stroke-width="2"/>
+        
+        <!-- Contenido de la pantalla -->
+        <g transform="translate(170, 120)">
+            <!-- Barra de navegación -->
+            <rect x="0" y="0" width="260" height="20" fill="#e9ecef" rx="3"/>
+            
+            <!-- Contenido -->
+            <rect x="0" y="30" width="100" height="10" fill="#dee2e6" rx="2"/>
+            <rect x="0" y="50" width="200" height="10" fill="#dee2e6" rx="2"/>
+            <rect x="0" y="70" width="150" height="10" fill="#dee2e6" rx="2"/>
+            
+            <!-- Botones -->
+            <rect x="0" y="100" width="80" height="25" fill="#0d6efd" rx="4"/>
+            <rect x="90" y="100" width="80" height="25" fill="#6c757d" rx="4"/>
+        </g>
+    </g>
+    
+    <!-- Elementos flotantes -->
+    <g transform="translate(500, 150)">
+        <!-- Icono de carrito -->
+        <circle cx="50" cy="50" r="30" fill="#198754"/>
+        <path d="M35 50 L65 50 L60 35 L40 35 Z M45 35 L45 30 L55 30 L55 35" 
+              stroke="white" fill="none" stroke-width="2"/>
+        
+        <!-- Icono de tarjeta -->
+        <rect x="100" y="30" width="50" height="40" fill="#dc3545" rx="5"/>
+        <rect x="105" y="40" width="40" height="5" fill="white"/>
+        <rect x="105" y="50" width="20" height="5" fill="white"/>
+    </g>
+    
+    <!-- Elementos decorativos -->
+    <g transform="translate(50, 450)">
+        <!-- Círculos decorativos -->
+        <circle cx="30" cy="30" r="20" fill="#0dcaf0" opacity="0.5"/>
+        <circle cx="700" cy="-350" r="25" fill="#ffc107" opacity="0.5"/>
+        <circle cx="650" cy="50" r="15" fill="#0d6efd" opacity="0.5"/>
+    </g>
+    
+    <!-- Líneas conectoras -->
+    <g stroke="#0d6efd" stroke-width="1" opacity="0.3">
+        <line x1="50" y1="500" x2="150" y2="400" stroke-dasharray="5,5"/>
+        <line x1="700" y1="100" x2="600" y2="200" stroke-dasharray="5,5"/>
+        <line x1="650" y1="500" x2="550" y2="400" stroke-dasharray="5,5"/>
+    </g>
+    
+    <!-- Texto decorativo -->
+    <g font-family="Arial" fill="#6c757d">
+        <text x="600" y="150" font-size="12" transform="rotate(30 600,150)">HTML5</text>
+        <text x="650" y="200" font-size="12" transform="rotate(-15 650,200)">CSS3</text>
+        <text x="550" y="250" font-size="12" transform="rotate(45 550,250)">JavaScript</text>
+    </g>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+    <!-- Fondo -->
+    <rect width="800" height="600" fill="#f8f9fa"/>
+    
+    <!-- Laptop base -->
+    <path d="M200 200 L600 200 L650 400 L150 400 Z" fill="#e9ecef" stroke="#dee2e6" stroke-width="2"/>
+    
+    <!-- Pantalla -->
+    <path d="M250 150 L550 150 L600 200 L200 200 Z" fill="#ffffff" stroke="#dee2e6" stroke-width="2"/>
+    
+    <!-- Marco de la pantalla -->
+    <rect x="260" y="160" width="280" height="30" fill="#dee2e6" rx="2"/>
+    
+    <!-- Touchpad -->
+    <rect x="350" y="300" width="100" height="60" fill="#dee2e6" rx="5"/>
+    
+    <!-- Teclado (representación simplificada) -->
+    <g fill="#dee2e6">
+        <rect x="250" y="250" width="300" height="30" rx="2"/>
+        <rect x="270" y="260" width="20" height="10" rx="1"/>
+        <rect x="300" y="260" width="20" height="10" rx="1"/>
+        <rect x="330" y="260" width="20" height="10" rx="1"/>
+        <rect x="360" y="260" width="20" height="10" rx="1"/>
+        <rect x="390" y="260" width="20" height="10" rx="1"/>
+        <rect x="420" y="260" width="20" height="10" rx="1"/>
+        <rect x="450" y="260" width="20" height="10" rx="1"/>
+        <rect x="480" y="260" width="20" height="10" rx="1"/>
+        <rect x="510" y="260" width="20" height="10" rx="1"/>
+    </g>
+    
+    <!-- Logo (placeholder) -->
+    <circle cx="400" cy="175" r="5" fill="#0d6efd"/>
+    
+    <!-- Texto placeholder -->
+    <text x="400" y="450" text-anchor="middle" font-family="Arial" font-size="14" fill="#6c757d">
+        Imagen no disponible
+    </text>
+    
+    <!-- Detalles decorativos -->
+    <g stroke="#dee2e6" stroke-width="1" fill="none">
+        <line x1="250" y1="220" x2="550" y2="220"/>
+        <line x1="250" y1="240" x2="550" y2="240"/>
+        <line x1="250" y1="290" x2="550" y2="290"/>
+    </g>
+</svg>

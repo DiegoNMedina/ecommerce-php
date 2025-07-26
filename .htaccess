@@ -2,11 +2,15 @@
 RewriteEngine On
 
 # Establecer el directorio base
-RewriteBase /ecommerce-php/public_html/
+RewriteBase /ecommerce-php/
 
-# Redirigir todas las solicitudes a HTTPS (descomentar en producción)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Permitir acceso a archivos estáticos - redirigir /assets/ a /public_html/assets/
+RewriteCond %{REQUEST_URI} ^/ecommerce-php/assets/
+RewriteRule ^assets/(.*)$ public_html/assets/$1 [L]
+
+# Permitir acceso directo a archivos estáticos en public_html
+RewriteCond %{REQUEST_URI} ^/ecommerce-php/public_html/assets/
+RewriteRule ^public_html/assets/(.*)$ public_html/assets/$1 [L]
 
 # Permitir acceso a archivos y directorios existentes
 RewriteCond %{REQUEST_FILENAME} !-f
