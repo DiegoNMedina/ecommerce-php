@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Punto de entrada principal de la aplicación
  * Este archivo maneja todas las peticiones desde la raíz del proyecto
@@ -66,7 +65,7 @@ try {
     if (\Install\Config::DEBUG_MODE) {
         throw $e;
     }
-
+    
     http_response_code(500);
     require __DIR__ . '/public_html/views/errors/500.php';
 }

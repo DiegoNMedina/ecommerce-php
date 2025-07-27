@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Calculadora</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Test Calculadora</h1>
+    
+    <form id="testForm">
+        <label>Precio: <input type="number" id="price" value="1000" step="0.01"></label><br><br>
+        <label>Meses: 
+            <select id="months">
+                <option value="6">6 meses</option>
+                <option value="12" selected>12 meses</option>
+            </select>
+        </label><br><br>
+        <button type="submit">Calcular</button>
+    </form>
+    
+    <div id="result" style="margin-top: 20px;"></div>
+    
+    <script>
+        $('#testForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            const price = $('#price').val();
+            const months = $('#months').val();
+            
+            console.log('Enviando:', { price, months });
+            
+            $.ajax({
+                url: '/ecommerce-php/public_html/calculator',
+                method: 'POST',
+                data: {
+                    price: price,
+                    months: months
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Respuesta:', response);
+                    if (response.success) {
+                        $('#result').html(`
+                            <h3>Resultado:</h3>
+                            <p>Pago mensual: $${response.monthlyPayment.toFixed(2)}</p>
+                            <p>Total a pagar: $${response.totalAmount.toFixed(2)}</p>
+                        `);
+                    } else {
+                        $('#result').html('<p style="color: red;">Error: ' + response.message + '</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error AJAX:', { xhr, status, error });
+                    console.error('Response text:', xhr.responseText);
+                    $('#result').html('<p style="color: red;">Error en la petición: ' + error + '</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
