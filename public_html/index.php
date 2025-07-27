@@ -52,7 +52,7 @@ try {
     if (\Install\Config::DEBUG_MODE) {
         throw $e;
     }
-
+    
     http_response_code(500);
     require __DIR__ . '/views/errors/500.php';
 }

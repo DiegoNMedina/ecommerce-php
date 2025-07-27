@@ -6,21 +6,18 @@ use Core\Controller;
 use Models\Product;
 use Models\Category;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller {
     /** @var Product */
     private $productModel;
     /** @var Category */
     private $categoryModel;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->productModel = new Product();
         $this->categoryModel = new Category();
     }
 
-    public function index(): void
-    {
+    public function index(): void {
         $page = (int) ($this->getQuery('page', 1));
         $limit = 12;
         $offset = ($page - 1) * $limit;
@@ -43,10 +40,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(int $id): void
-    {
+    public function show(int $id): void {
         $product = $this->productModel->findWithCategories($id);
-
+        
         if (!$product) {
             http_response_code(404);
             $this->render('errors/404');
@@ -70,8 +66,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function search(): void
-    {
+    public function search(): void {
         $query = $this->getQuery('q', '');
         $page = (int) ($this->getQuery('page', 1));
         $limit = 12;
@@ -102,10 +97,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function category(int $id): void
-    {
+    public function category(int $id): void {
         $category = $this->categoryModel->find($id);
-
+        
         if (!$category) {
             http_response_code(404);
             $this->render('errors/404');
@@ -131,8 +125,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function addComment(int $id): void
-    {
+    public function addComment(int $id): void {
         if (!$this->isPost()) {
             $this->redirect("/product/{$id}");
             return;
@@ -163,8 +156,7 @@ class ProductController extends Controller
         $this->redirect("/product/{$id}#comment-{$commentId}");
     }
 
-    public function featured(): void
-    {
+    public function featured(): void {
         $featuredProducts = $this->productModel->findAll(
             [],
             ['visits' => 'DESC'],
@@ -180,7 +172,7 @@ class ProductController extends Controller
 
         // Obtener categorías para las pestañas
         $categories = $this->categoryModel->findAll();
-
+        
         // Obtener productos más visitados por categoría
         $most_visited_products = [];
         foreach ($categories as $category) {
@@ -189,12 +181,12 @@ class ProductController extends Controller
                 4, // límite de 4 productos por categoría
                 0   // offset 0
             );
-
+            
             // Calcular mensualidades para productos de categoría
             foreach ($categoryProducts as &$product) {
                 $product['monthly_payment'] = $this->productModel->calculateInstallments($product['price'], 12);
             }
-
+            
             $most_visited_products[$category['id']] = $categoryProducts;
         }
 

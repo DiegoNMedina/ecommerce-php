@@ -2,12 +2,10 @@
 
 namespace Models;
 
-class Category extends Model
-{
+class Category extends Model {
     protected string $table = 'categories';
 
-    public function getMainCategories(): array
-    {
+    public function getMainCategories(): array {
         $sql = "SELECT c.*, COUNT(pc.product_id) as product_count
                 FROM categories c
                 LEFT JOIN product_categories pc ON c.id = pc.category_id
@@ -20,8 +18,7 @@ class Category extends Model
         return $stmt->fetchAll();
     }
 
-    public function getSubcategories(int $parentId): array
-    {
+    public function getSubcategories(int $parentId): array {
         $sql = "SELECT c.*, COUNT(pc.product_id) as product_count
                 FROM categories c
                 LEFT JOIN product_categories pc ON c.id = pc.category_id
@@ -34,8 +31,7 @@ class Category extends Model
         return $stmt->fetchAll();
     }
 
-    public function getCategoryPath(int $categoryId): array
-    {
+    public function getCategoryPath(int $categoryId): array {
         $path = [];
         $currentId = $categoryId;
 
@@ -56,17 +52,15 @@ class Category extends Model
         return $path;
     }
 
-    public function getCategoryTree(): array
-    {
+    public function getCategoryTree(): array {
         $categories = $this->findAll(['parent_id' => null]);
-        return array_map(function ($category) {
+        return array_map(function($category) {
             $category['children'] = $this->getSubcategories($category['id']);
             return $category;
         }, $categories);
     }
 
-    public function getAccessories(int $categoryId): array
-    {
+    public function getAccessories(int $categoryId): array {
         $sql = "SELECT a.* 
                 FROM accessories a 
                 WHERE a.category_id = ?";
@@ -76,8 +70,7 @@ class Category extends Model
         return $stmt->fetchAll();
     }
 
-    public function getRelatedProducts(int $categoryId, int $limit = 5): array
-    {
+    public function getRelatedProducts(int $categoryId, int $limit = 5): array {
         $sql = "SELECT DISTINCT p.*, COUNT(DISTINCT com.id) as comment_count
                 FROM products p
                 JOIN product_categories pc ON p.id = pc.product_id
@@ -92,8 +85,7 @@ class Category extends Model
         return $stmt->fetchAll();
     }
 
-    public function getProductCount(int $categoryId): int
-    {
+    public function getProductCount(int $categoryId): int {
         $sql = "SELECT COUNT(DISTINCT p.id) 
                 FROM products p 
                 JOIN product_categories pc ON p.id = pc.product_id 
@@ -104,15 +96,13 @@ class Category extends Model
         return (int) $stmt->fetchColumn();
     }
 
-    public function addProductToCategory(int $productId, int $categoryId): bool
-    {
+    public function addProductToCategory(int $productId, int $categoryId): bool {
         $sql = "INSERT IGNORE INTO product_categories (product_id, category_id) VALUES (?, ?)";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$productId, $categoryId]);
     }
 
-    public function removeProductFromCategory(int $productId, int $categoryId): bool
-    {
+    public function removeProductFromCategory(int $productId, int $categoryId): bool {
         $sql = "DELETE FROM product_categories WHERE product_id = ? AND category_id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$productId, $categoryId]);

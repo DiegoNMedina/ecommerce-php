@@ -4,26 +4,22 @@ namespace Models;
 
 use Core\Database;
 
-abstract class Model
-{
+abstract class Model {
     protected \PDO $db;
     protected string $table;
     protected string $primaryKey = 'id';
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->db = Database::getInstance();
     }
 
-    public function find(int $id): ?array
-    {
+    public function find(int $id): ?array {
         $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ?");
         $stmt->execute([$id]);
         return $stmt->fetch() ?: null;
     }
 
-    public function findAll(array $conditions = [], array $orderBy = [], int $limit = null, int $offset = null): array
-    {
+    public function findAll(array $conditions = [], array $orderBy = [], int $limit = null, int $offset = null): array {
         $sql = "SELECT * FROM {$this->table}";
         $params = [];
 
@@ -59,8 +55,7 @@ abstract class Model
         return $stmt->fetchAll();
     }
 
-    public function create(array $data): int
-    {
+    public function create(array $data): int {
         $columns = implode(', ', array_keys($data));
         $values = implode(', ', array_fill(0, count($data), '?'));
 
@@ -71,8 +66,7 @@ abstract class Model
         return (int) $this->db->lastInsertId();
     }
 
-    public function update(int $id, array $data): bool
-    {
+    public function update(int $id, array $data): bool {
         $set = [];
         foreach ($data as $key => $value) {
             $set[] = "{$key} = ?";
@@ -87,15 +81,13 @@ abstract class Model
         return $stmt->execute($values);
     }
 
-    public function delete(int $id): bool
-    {
+    public function delete(int $id): bool {
         $sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
     }
 
-    public function count(array $conditions = []): int
-    {
+    public function count(array $conditions = []): int {
         $sql = "SELECT COUNT(*) FROM {$this->table}";
         $params = [];
 

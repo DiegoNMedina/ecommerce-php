@@ -6,21 +6,18 @@ use Core\Controller;
 use Models\Product;
 use Models\Category;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     /** @var Product */
     private $productModel;
     /** @var Category */
     private $categoryModel;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->productModel = new Product();
         $this->categoryModel = new Category();
     }
 
-    public function index(): void
-    {
+    public function index(): void {
         // Obtener categorías principales con sus subcategorías
         $categories = $this->categoryModel->getCategoryTree();
 
@@ -52,13 +49,11 @@ class HomeController extends Controller
         ]);
     }
 
-    public function about(): void
-    {
+    public function about(): void {
         $this->render('home/about');
     }
 
-    public function contact(): void
-    {
+    public function contact(): void {
         if ($this->isPost()) {
             // Procesar el formulario de contacto
             $name = $this->getPost('name');
@@ -83,8 +78,7 @@ class HomeController extends Controller
         $this->render('home/contact');
     }
 
-    public function installmentCalculator(): void
-    {
+    public function installmentCalculator(): void {
         if ($this->isPost()) {
             $price = (float) $this->getPost('price', 0);
             $months = (int) $this->getPost('months', 6);
