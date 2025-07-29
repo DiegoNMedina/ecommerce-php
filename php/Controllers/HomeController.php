@@ -26,12 +26,14 @@ class HomeController extends Controller {
 
         // Obtener productos más visitados por categoría
         $mostVisitedByCategory = [];
+        $categoryIdMap = [];
         foreach ($categories as $category) {
             $mostVisitedByCategory[$category['name']] = $this->productModel->findByCategory(
                 $category['id'],
                 10,
                 0
             );
+            $categoryIdMap[$category['name']] = $category['id'];
         }
 
         // Calcular mensualidades para productos destacados
@@ -45,7 +47,8 @@ class HomeController extends Controller {
         $this->render('home/index', [
             'categories' => $categories,
             'featuredProducts' => $featuredProducts,
-            'mostVisitedByCategory' => $mostVisitedByCategory
+            'mostVisitedByCategory' => $mostVisitedByCategory,
+            'categoryIdMap' => $categoryIdMap
         ]);
     }
 
