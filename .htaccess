@@ -1,0 +1,73 @@
+# Habilitar el motor de reescritura
+RewriteEngine On
+
+# Establecer el directorio base
+RewriteBase /ecommerce-php/
+
+# Permitir acceso a archivos estáticos - redirigir /assets/ a /public_html/assets/
+RewriteCond %{REQUEST_URI} ^/ecommerce-php/assets/
+RewriteRule ^assets/(.*)$ public_html/assets/$1 [L]
+
+# Permitir acceso directo a archivos estáticos en public_html
+RewriteCond %{REQUEST_URI} ^/ecommerce-php/public_html/assets/
+RewriteRule ^public_html/assets/(.*)$ public_html/assets/$1 [L]
+
+# Permitir acceso a archivos y directorios existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir todas las demás solicitudes a index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Prevenir listado de directorios
+Options -Indexes
+
+# Denegar acceso a archivos sensibles
+<FilesMatch "^\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+# Denegar acceso a directorios sensibles excepto initialize.php
+RedirectMatch 403 ^/ecommerce-php/install/(?!initialize\.php).*$
+RedirectMatch 403 ^/ecommerce-php/php/.*$
+
+# Configurar cabeceras de seguridad
+<IfModule mod_headers.c>
+    # Prevenir clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Habilitar protección XSS en navegadores modernos
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Prevenir sniffing de tipo MIME
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Política de seguridad de contenido (CSP)
+    Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:;"
+</IfModule>
+
+# Comprimir archivos de texto
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Caché del navegador
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>

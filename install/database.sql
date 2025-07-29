@@ -1,3 +1,4 @@
+-- Script completo de base de datos con seguimiento de ventas integrado
 -- Crear base de datos
 CREATE DATABASE IF NOT EXISTS ecommerce_computers;
 USE ecommerce_computers;
@@ -12,7 +13,7 @@ CREATE TABLE categories (
     FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
--- Tabla de productos
+-- Tabla de productos (con sales_count incluido desde el inicio)
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     model VARCHAR(100) NOT NULL,
@@ -22,6 +23,7 @@ CREATE TABLE products (
     stock INT NOT NULL DEFAULT 0,
     visits INT NOT NULL DEFAULT 0,
     likes INT NOT NULL DEFAULT 0,
+    sales_count INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -58,6 +60,29 @@ CREATE TABLE comments (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
+-- Tabla de órdenes/ventas
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    customer_email VARCHAR(100) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla de items de órdenes
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    unit_price DECIMAL(10,2) NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
 -- Procedimiento almacenado para calcular mensualidades
 DELIMITER //
 CREATE PROCEDURE calculate_installments(
@@ -75,6 +100,17 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Trigger para actualizar sales_count cuando se agrega un item a una orden
+DELIMITER //
+CREATE TRIGGER update_sales_count AFTER INSERT ON order_items
+FOR EACH ROW
+BEGIN
+    UPDATE products 
+    SET sales_count = sales_count + NEW.quantity 
+    WHERE id = NEW.product_id;
+END //
+DELIMITER ;
+
 -- Vista para productos aleatorios con mensualidades
 CREATE VIEW random_products_installments AS
 SELECT 
@@ -84,3 +120,23 @@ SELECT
 FROM products p
 ORDER BY RAND()
 LIMIT 10;
+
+-- Vista para productos más vendidos
+CREATE VIEW best_selling_products AS
+SELECT 
+    p.*,
+    p.price / 6 as monthly_6,
+    p.price / 12 as monthly_12,
+    COUNT(DISTINCT c.id) as comment_count,
+    AVG(c.rating) as avg_rating
+FROM products p
+LEFT JOIN comments c ON p.id = c.product_id
+WHERE p.sales_count > 0
+GROUP BY p.id
+ORDER BY p.sales_count DESC, p.visits DESC;
+
+-- Datos de prueba para simular ventas (se ejecutarán después de que se inserten productos)
+-- Nota: Estos UPDATE se deben ejecutar después de poblar la base de datos con productos
+-- UPDATE products SET sales_count = FLOOR(RAND() * 100) + 1 WHERE id <= 50;
+-- UPDATE products SET sales_count = FLOOR(RAND() * 50) + 1 WHERE id > 50 AND id <= 100;
+-- UPDATE products SET sales_count = FLOOR(RAND() * 25) + 1 WHERE id > 100 AND id <= 200;
