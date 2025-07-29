@@ -4,7 +4,8 @@ namespace Install;
 
 require_once 'config.php';
 
-class DatabaseInitializer {
+class DatabaseInitializer
+{
     private \PDO $pdo;
     private array $brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Asus', 'Acer', 'MSI', 'Samsung'];
     private array $categories = [
@@ -14,7 +15,8 @@ class DatabaseInitializer {
         'Accessories' => ['Monitors', 'Keyboards', 'Mice', 'Headsets']
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         try {
             $this->pdo = new \PDO(
                 Config::getDsn(),
@@ -27,7 +29,8 @@ class DatabaseInitializer {
         }
     }
 
-    public function initialize(): void {
+    public function initialize(): void
+    {
         $this->createCategories();
         $this->createProducts();
         $this->createComments();
@@ -35,7 +38,8 @@ class DatabaseInitializer {
         echo "Database initialized successfully!\n";
     }
 
-    private function createCategories(): void {
+    private function createCategories(): void
+    {
         foreach ($this->categories as $mainCategory => $subCategories) {
             $stmt = $this->pdo->prepare("INSERT INTO categories (name) VALUES (?)");
             $stmt->execute([$mainCategory]);
@@ -48,7 +52,8 @@ class DatabaseInitializer {
         }
     }
 
-    private function createProducts(): void {
+    private function createProducts(): void
+    {
         $specs = [
             'low' => [
                 'CPU' => ['Intel i3', 'AMD Ryzen 3'],
@@ -73,18 +78,18 @@ class DatabaseInitializer {
         for ($i = 0; $i < 2000; $i++) {
             $brand = $this->brands[array_rand($this->brands)];
             $tier = array_rand($specs);
-            switch($tier) {
+            switch ($tier) {
                 case 'low':
-                    $price = rand(30000, 50000) / 100;
+                    $price = rand(10000, 25000);
                     break;
                 case 'mid':
-                    $price = rand(50000, 80000) / 100;
+                    $price = rand(25000, 45000);
                     break;
                 case 'high':
-                    $price = rand(80000, 150000) / 100;
+                    $price = rand(45000, 60000);
                     break;
                 default:
-                    $price = rand(30000, 50000) / 100;
+                    $price = rand(10000, 25000);
             }
 
             $specList = $specs[$tier];
@@ -112,10 +117,11 @@ class DatabaseInitializer {
         }
     }
 
-    private function assignCategories(int $productId): void {
+    private function assignCategories(int $productId): void
+    {
         $categoryIds = $this->pdo->query("SELECT id FROM categories WHERE parent_id IS NOT NULL")
             ->fetchAll(\PDO::FETCH_COLUMN);
-        
+
         $selectedCategories = array_rand(array_flip($categoryIds), 3);
         foreach ($selectedCategories as $categoryId) {
             $stmt = $this->pdo->prepare(
@@ -125,7 +131,8 @@ class DatabaseInitializer {
         }
     }
 
-    private function createComments(): void {
+    private function createComments(): void
+    {
         $comments = [
             "Excelente computadora, cumple con todas mis expectativas.",
             "Buena relación calidad-precio.",
@@ -157,27 +164,28 @@ class DatabaseInitializer {
         }
     }
 
-    private function createAccessories(): void {
+    private function createAccessories(): void
+    {
         $accessories = [
             'Monitors' => [
-                ['name' => 'Monitor 24" FHD', 'price' => 199.99],
-                ['name' => 'Monitor 27" 4K', 'price' => 399.99],
-                ['name' => 'Monitor 32" Gaming', 'price' => 499.99]
+                ['name' => 'Monitor 24" FHD', 'price' => 3500],
+                ['name' => 'Monitor 27" 4K', 'price' => 7000],
+                ['name' => 'Monitor 32" Gaming', 'price' => 8500]
             ],
             'Keyboards' => [
-                ['name' => 'Teclado Mecánico RGB', 'price' => 89.99],
-                ['name' => 'Teclado Inalámbrico', 'price' => 49.99],
-                ['name' => 'Teclado Gaming', 'price' => 129.99]
+                ['name' => 'Teclado Mecánico RGB', 'price' => 1500],
+                ['name' => 'Teclado Inalámbrico', 'price' => 850],
+                ['name' => 'Teclado Gaming', 'price' => 2200]
             ],
             'Mice' => [
-                ['name' => 'Mouse Gaming', 'price' => 59.99],
-                ['name' => 'Mouse Inalámbrico', 'price' => 29.99],
-                ['name' => 'Mouse Ergonómico', 'price' => 79.99]
+                ['name' => 'Mouse Gaming', 'price' => 1000],
+                ['name' => 'Mouse Inalámbrico', 'price' => 500],
+                ['name' => 'Mouse Ergonómico', 'price' => 1350]
             ],
             'Headsets' => [
-                ['name' => 'Auriculares Gaming', 'price' => 99.99],
-                ['name' => 'Auriculares Bluetooth', 'price' => 79.99],
-                ['name' => 'Auriculares con Micrófono', 'price' => 69.99]
+                ['name' => 'Auriculares Gaming', 'price' => 1700],
+                ['name' => 'Auriculares Bluetooth', 'price' => 1350],
+                ['name' => 'Auriculares con Micrófono', 'price' => 1200]
             ]
         ];
 
