@@ -23,6 +23,8 @@ INSTRUCCIONES DE INSTALACIÓN
 3. Ejecutar el script de instalación en la carpeta install/
 4. Importar la base de datos usando el script SQL proporcionado
 5. Configurar los parámetros de conexión en el archivo de configuración
+6. Inicializar los datos de prueba: php install/initialize.php
+(Para más información seguir el archivo INSTALACION.md)
 
 ACTIVIDADES COMPLETADAS - TODAS NIVEL DESDE BASICO A AVANZADO
 - Creacion de la base de datos 

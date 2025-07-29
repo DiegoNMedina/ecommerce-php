@@ -4,7 +4,8 @@ namespace Install;
 
 require_once 'config.php';
 
-class DatabaseInitializer {
+class DatabaseInitializer
+{
     private \PDO $pdo;
     private array $brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Asus', 'Acer', 'MSI', 'Samsung'];
     private array $categories = [
@@ -14,7 +15,8 @@ class DatabaseInitializer {
         'Accesorios' => ['Monitores', 'Teclados', 'Ratones', 'Auriculares']
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         try {
             $this->pdo = new \PDO(
                 Config::getDsn(),
@@ -27,15 +29,17 @@ class DatabaseInitializer {
         }
     }
 
-    public function initialize(): void {
+    public function initialize(): void
+    {
         $this->createCategories();
         $this->createProducts();
         $this->createComments();
         $this->createAccessories();
-        echo "Database initialized successfully!\n";
+        echo "¡Base de datos inicializada exitosamente!\n";
     }
 
-    private function createCategories(): void {
+    private function createCategories(): void
+    {
         foreach ($this->categories as $mainCategory => $subCategories) {
             $stmt = $this->pdo->prepare("INSERT INTO categories (name) VALUES (?)");
             $stmt->execute([$mainCategory]);
@@ -48,7 +52,8 @@ class DatabaseInitializer {
         }
     }
 
-    private function createProducts(): void {
+    private function createProducts(): void
+    {
         $specs = [
             'low' => [
                 'CPU' => ['Intel i3', 'AMD Ryzen 3'],
@@ -73,7 +78,7 @@ class DatabaseInitializer {
         for ($i = 0; $i < 2000; $i++) {
             $brand = $this->brands[array_rand($this->brands)];
             $tier = array_rand($specs);
-            switch($tier) {
+            switch ($tier) {
                 case 'low':
                     $price = rand(10000, 25000);
                     break;
@@ -112,10 +117,11 @@ class DatabaseInitializer {
         }
     }
 
-    private function assignCategories(int $productId): void {
+    private function assignCategories(int $productId): void
+    {
         $categoryIds = $this->pdo->query("SELECT id FROM categories WHERE parent_id IS NOT NULL")
             ->fetchAll(\PDO::FETCH_COLUMN);
-        
+
         $selectedCategories = array_rand(array_flip($categoryIds), 3);
         foreach ($selectedCategories as $categoryId) {
             $stmt = $this->pdo->prepare(
@@ -125,7 +131,8 @@ class DatabaseInitializer {
         }
     }
 
-    private function createComments(): void {
+    private function createComments(): void
+    {
         $comments = [
             "Excelente computadora, cumple con todas mis expectativas. La velocidad de procesamiento es increíble.",
             "Buena relación calidad-precio. Recomiendo esta marca sin dudarlo.",
@@ -208,7 +215,8 @@ class DatabaseInitializer {
         echo "Total de comentarios creados: {$totalComments}\n";
     }
 
-    private function createAccessories(): void {
+    private function createAccessories(): void
+    {
         $accessories = [
             'Monitores' => [
                 ['name' => 'Monitor 24" FHD', 'price' => 3500],

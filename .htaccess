@@ -28,8 +28,9 @@ Order Allow,Deny
 Deny from all
 </FilesMatch>
 
-# Denegar acceso a directorios sensibles
-RedirectMatch 403 ^/ecommerce-php/(install|php)/.*$
+# Denegar acceso a directorios sensibles excepto initialize.php
+RedirectMatch 403 ^/ecommerce-php/install/(?!initialize\.php).*$
+RedirectMatch 403 ^/ecommerce-php/php/.*$
 
 # Configurar cabeceras de seguridad
 <IfModule mod_headers.c>
