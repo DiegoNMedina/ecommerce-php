@@ -56,6 +56,7 @@ $router->get('/product/{id}', [ProductController::class, 'show']);
 $router->get('/category/{id}', [ProductController::class, 'category']);
 $router->get('/search', [ProductController::class, 'search']);
 $router->get('/featured', [ProductController::class, 'featured']);
+$router->get('/best-selling', [ProductController::class, 'bestSelling']);
 $router->post('/product/{id}/comment', [ProductController::class, 'addComment']);
 
 // Manejar la solicitud

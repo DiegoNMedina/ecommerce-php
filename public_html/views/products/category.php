@@ -78,13 +78,27 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
                     <i class="fas fa-sort me-2"></i>Ordenar por
+                    <?php if (isset($sort)): ?>
+                        <?php 
+                        $sortLabels = [
+                            'price_asc' => 'Precio: Menor a Mayor',
+                            'price_desc' => 'Precio: Mayor a Menor', 
+                            'name_asc' => 'Nombre: A-Z',
+                            'name_desc' => 'Nombre: Z-A',
+                            'visits_desc' => 'Más Visitados'
+                        ];
+                        ?>
+                        <span class="text-muted"> - <?= $sortLabels[$sort] ?? 'Por defecto' ?></span>
+                    <?php endif; ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="?sort=price_asc">Precio: Menor a Mayor</a></li>
-                    <li><a class="dropdown-item" href="?sort=price_desc">Precio: Mayor a Menor</a></li>
-                    <li><a class="dropdown-item" href="?sort=name_asc">Nombre: A-Z</a></li>
-                    <li><a class="dropdown-item" href="?sort=name_desc">Nombre: Z-A</a></li>
-                    <li><a class="dropdown-item" href="?sort=visits_desc">Más Visitados</a></li>
+                    <li><a class="dropdown-item <?= (isset($sort) && $sort === 'price_asc') ? 'active' : '' ?>" href="?sort=price_asc">Precio: Menor a Mayor</a></li>
+                    <li><a class="dropdown-item <?= (isset($sort) && $sort === 'price_desc') ? 'active' : '' ?>" href="?sort=price_desc">Precio: Mayor a Menor</a></li>
+                    <li><a class="dropdown-item <?= (isset($sort) && $sort === 'name_asc') ? 'active' : '' ?>" href="?sort=name_asc">Nombre: A-Z</a></li>
+                    <li><a class="dropdown-item <?= (isset($sort) && $sort === 'name_desc') ? 'active' : '' ?>" href="?sort=name_desc">Nombre: Z-A</a></li>
+                    <li><a class="dropdown-item <?= (isset($sort) && $sort === 'visits_desc') ? 'active' : '' ?>" href="?sort=visits_desc">Más Visitados</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item <?= !isset($sort) ? 'active' : '' ?>" href="?">Por defecto</a></li>
                 </ul>
             </div>
         </div>
@@ -324,16 +338,24 @@
 
             <!-- Paginación -->
             <?php if ($total_pages > 1): ?>
+            <?php 
+            // Construir parámetros de URL para mantener el sort
+            $urlParams = [];
+            if (isset($sort) && !empty($sort)) {
+                $urlParams['sort'] = $sort;
+            }
+            $baseUrl = '?' . (!empty($urlParams) ? http_build_query($urlParams) . '&' : '');
+            ?>
             <nav aria-label="Product navigation">
                 <ul class="pagination justify-content-center">
                     <?php if ($current_page > 1): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=1" title="Primera página">
+                            <a class="page-link" href="<?= $baseUrl ?>page=1" title="Primera página">
                                 <i class="fas fa-angle-double-left"></i>
                             </a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $current_page - 1 ?>" title="Página anterior">
+                            <a class="page-link" href="<?= $baseUrl ?>page=<?= $current_page - 1 ?>" title="Página anterior">
                                 <i class="fas fa-chevron-left"></i>
                             </a>
                         </li>
@@ -348,7 +370,7 @@
                     // Mostrar primera página si no está en el rango
                     if ($start > 1): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=1">1</a>
+                            <a class="page-link" href="<?= $baseUrl ?>page=1">1</a>
                         </li>
                         <?php if ($start > 2): ?>
                             <li class="page-item disabled">
@@ -359,7 +381,7 @@
 
                     <?php for ($i = $start; $i <= $end; $i++): ?>
                         <li class="page-item <?= $i === $current_page ? 'active' : '' ?>">
-                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                            <a class="page-link" href="<?= $baseUrl ?>page=<?= $i ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
 
@@ -372,18 +394,18 @@
                             </li>
                         <?php endif; ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $total_pages ?>"><?= $total_pages ?></a>
+                            <a class="page-link" href="<?= $baseUrl ?>page=<?= $total_pages ?>"><?= $total_pages ?></a>
                         </li>
                     <?php endif; ?>
 
                     <?php if ($current_page < $total_pages): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $current_page + 1 ?>" title="Página siguiente">
+                            <a class="page-link" href="<?= $baseUrl ?>page=<?= $current_page + 1 ?>" title="Página siguiente">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $total_pages ?>" title="Última página">
+                            <a class="page-link" href="<?= $baseUrl ?>page=<?= $total_pages ?>" title="Última página">
                                 <i class="fas fa-angle-double-right"></i>
                             </a>
                         </li>

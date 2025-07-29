@@ -56,6 +56,72 @@ class Product extends Model {
         return $stmt->fetchAll();
     }
 
+    public function findByCategoryWithSort(int $categoryId, int $limit = 10, int $offset = 0, string $sort = 'rating'): array {
+        // Verificar si es una categoría principal
+        $categoryCheck = $this->db->prepare("SELECT parent_id FROM categories WHERE id = ?");
+        $categoryCheck->execute([$categoryId]);
+        $categoryInfo = $categoryCheck->fetch();
+        
+        // Construir ORDER BY según el filtro de ordenamiento
+        $orderBy = "AVG(com.rating) DESC, p.visits DESC";
+        switch ($sort) {
+            case 'price_asc':
+                $orderBy = "p.price ASC";
+                break;
+            case 'price_desc':
+                $orderBy = "p.price DESC";
+                break;
+            case 'name_asc':
+                $orderBy = "p.brand ASC, p.model ASC";
+                break;
+            case 'name_desc':
+                $orderBy = "p.brand DESC, p.model DESC";
+                break;
+            case 'visits_desc':
+                $orderBy = "p.visits DESC";
+                break;
+            case 'rating':
+                $orderBy = "AVG(com.rating) DESC, p.visits DESC";
+                break;
+            case 'sales':
+                $orderBy = "p.sales_count DESC, AVG(com.rating) DESC";
+                break;
+            default:
+                $orderBy = "AVG(com.rating) DESC, p.visits DESC";
+        }
+        
+        if ($categoryInfo && $categoryInfo['parent_id'] === null) {
+            // Es categoría principal: incluir productos de subcategorías
+            $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating
+                    FROM products p
+                    JOIN product_categories pc ON p.id = pc.product_id
+                    JOIN categories c ON pc.category_id = c.id
+                    LEFT JOIN comments com ON p.id = com.product_id
+                    WHERE c.id = ? OR c.parent_id = ?
+                    GROUP BY p.id
+                    ORDER BY $orderBy
+                    LIMIT ? OFFSET ?";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$categoryId, $categoryId, $limit, $offset]);
+        } else {
+            // Es subcategoría: productos directos solamente
+            $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating
+                    FROM products p
+                    JOIN product_categories pc ON p.id = pc.product_id
+                    LEFT JOIN comments com ON p.id = com.product_id
+                    WHERE pc.category_id = ?
+                    GROUP BY p.id
+                    ORDER BY $orderBy
+                    LIMIT ? OFFSET ?";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$categoryId, $limit, $offset]);
+        }
+        
+        return $stmt->fetchAll();
+    }
+
     public function search(string $query, int $limit = 10, int $offset = 0): array {
         $searchTerm = "%{$query}%";
         $sql = "SELECT p.*, COUNT(DISTINCT com.id) as comment_count, AVG(com.rating) as avg_rating,
@@ -143,6 +209,9 @@ class Product extends Model {
                     break;
                 case 'name_desc':
                     $orderBy = "p.brand DESC, p.model DESC";
+                    break;
+                case 'visits_desc':
+                    $orderBy = "p.visits DESC";
                     break;
                 case 'rating':
                     $orderBy = "AVG(com.rating) DESC, p.visits DESC";
