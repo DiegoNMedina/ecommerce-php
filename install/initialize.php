@@ -35,6 +35,7 @@ class DatabaseInitializer
         $this->createProducts();
         $this->createComments();
         $this->createAccessories();
+        $this->createSalesData();
         echo "¡Base de datos inicializada exitosamente!\n";
     }
 
@@ -259,6 +260,65 @@ class DatabaseInitializer
                 ]);
             }
         }
+    }
+
+    private function createSalesData(): void
+    {
+        echo "Generando datos de ventas...\n";
+        
+        // Obtener todos los IDs de productos
+        $productIds = $this->pdo->query("SELECT id FROM products ORDER BY id")->fetchAll(\PDO::FETCH_COLUMN);
+        
+        if (empty($productIds)) {
+            echo "No hay productos para generar ventas.\n";
+            return;
+        }
+        
+        // Generar ventas para diferentes rangos de productos
+        // Top sellers (primeros 50 productos): 50-200 ventas
+        $topSellers = array_slice($productIds, 0, min(50, count($productIds)));
+        foreach ($topSellers as $productId) {
+            $salesCount = rand(50, 200);
+            $stmt = $this->pdo->prepare("UPDATE products SET sales_count = ? WHERE id = ?");
+            $stmt->execute([$salesCount, $productId]);
+        }
+        
+        // Good sellers (siguientes 100 productos): 20-80 ventas
+        if (count($productIds) > 50) {
+            $goodSellers = array_slice($productIds, 50, min(100, count($productIds) - 50));
+            foreach ($goodSellers as $productId) {
+                $salesCount = rand(20, 80);
+                $stmt = $this->pdo->prepare("UPDATE products SET sales_count = ? WHERE id = ?");
+                $stmt->execute([$salesCount, $productId]);
+            }
+        }
+        
+        // Moderate sellers (siguientes 200 productos): 5-30 ventas
+        if (count($productIds) > 150) {
+            $moderateSellers = array_slice($productIds, 150, min(200, count($productIds) - 150));
+            foreach ($moderateSellers as $productId) {
+                $salesCount = rand(5, 30);
+                $stmt = $this->pdo->prepare("UPDATE products SET sales_count = ? WHERE id = ?");
+                $stmt->execute([$salesCount, $productId]);
+            }
+        }
+        
+        // Algunos productos sin ventas (el resto mantiene sales_count = 0)
+        // Esto es realista ya que no todos los productos se venden igual
+        
+        // Actualizar también las visitas para que sea más realista
+        foreach ($productIds as $productId) {
+            $visits = rand(10, 500);
+            $stmt = $this->pdo->prepare("UPDATE products SET visits = ? WHERE id = ?");
+            $stmt->execute([$visits, $productId]);
+        }
+        
+        echo "Datos de ventas generados exitosamente.\n";
+        
+        // Mostrar estadísticas
+        $totalWithSales = $this->pdo->query("SELECT COUNT(*) FROM products WHERE sales_count > 0")->fetchColumn();
+        $totalProducts = count($productIds);
+        echo "Productos con ventas: {$totalWithSales} de {$totalProducts}\n";
     }
 }
 
