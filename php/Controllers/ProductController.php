@@ -126,10 +126,11 @@ class ProductController extends Controller {
         }
 
         $page = (int) ($this->getQuery('page', 1));
+        $sort = $this->getQuery('sort', 'rating'); // Obtener parámetro de ordenamiento
         $limit = 12;
         $offset = ($page - 1) * $limit;
 
-        $products = $this->productModel->findByCategory($id, $limit, $offset);
+        $products = $this->productModel->findByCategoryWithSort($id, $limit, $offset, $sort);
         $totalProducts = $this->categoryModel->getProductCount($id);
         $totalPages = ceil($totalProducts / $limit);
 
@@ -161,6 +162,7 @@ class ProductController extends Controller {
             'products' => $products,
             'current_page' => $page,
             'total_pages' => $totalPages,
+            'sort' => $sort,
             'breadcrumbs' => $this->categoryModel->getCategoryPath($id),
             'subcategories' => $this->categoryModel->getSubcategories($id),
             'accessories' => $this->categoryModel->getAccessories($id),
