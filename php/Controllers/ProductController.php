@@ -66,14 +66,30 @@ class ProductController extends Controller {
         $page = (int) ($this->getQuery('page', 1));
         $limit = 12;
         $offset = ($page - 1) * $limit;
+        
+        // Obtener filtros
+        $selectedCategories = $this->getQuery('categories', []);
+        $selectedBrands = $this->getQuery('brands', []);
+        $minPrice = $this->getQuery('min_price', '');
+        $maxPrice = $this->getQuery('max_price', '');
+        $sort = $this->getQuery('sort', 'relevance');
 
         if (empty($query)) {
             $this->redirect('/');
             return;
         }
 
-        $products = $this->productModel->search($query, $limit, $offset);
-        $totalProducts = count($this->productModel->search($query));
+        // Aplicar filtros en la búsqueda
+        $filters = [
+            'categories' => $selectedCategories,
+            'brands' => $selectedBrands,
+            'min_price' => $minPrice,
+            'max_price' => $maxPrice,
+            'sort' => $sort
+        ];
+        
+        $products = $this->productModel->searchWithFilters($query, $filters, $limit, $offset);
+        $totalProducts = count($this->productModel->searchWithFilters($query, $filters));
         $totalPages = ceil($totalProducts / $limit);
 
         if ($this->isAjax()) {
@@ -88,7 +104,15 @@ class ProductController extends Controller {
             'products' => $products,
             'query' => $query,
             'currentPage' => $page,
-            'totalPages' => $totalPages
+            'totalPages' => $totalPages,
+            'totalProducts' => $totalProducts,
+            'brands' => $this->productModel->getAllBrands(),
+            'categories' => $this->categoryModel->findAll(),
+            'selectedCategories' => $selectedCategories,
+            'selectedBrands' => $selectedBrands,
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
+            'sort' => $sort
         ]);
     }
 
@@ -109,11 +133,27 @@ class ProductController extends Controller {
         $totalProducts = $this->categoryModel->getProductCount($id);
         $totalPages = ceil($totalProducts / $limit);
 
+        // Obtener productos destacados filtrados por categoría
+        $featuredProducts = $this->productModel->getFeaturedByCategory($id, 10);
+        
+        // Obtener productos más vendidos filtrados por categoría
+        $bestSellingProducts = $this->productModel->getBestSellingByCategory($id, 10);
+
         // Agregar campos faltantes a los productos
         foreach ($products as &$product) {
             $product['name'] = $product['model']; // Usar model como name
             $product['monthly_payment'] = $this->productModel->calculateInstallments($product['price'], 12);
             $product['rating'] = $product['avg_rating'] ?? 0; // Usar avg_rating como rating
+        }
+        
+        // Calcular cuotas para productos destacados
+        foreach ($featuredProducts as &$product) {
+            $product['installments'] = $this->productModel->calculateInstallments($product['price'], 12);
+        }
+        
+        // Calcular cuotas para productos más vendidos
+        foreach ($bestSellingProducts as &$product) {
+            $product['installments'] = $this->productModel->calculateInstallments($product['price'], 12);
         }
 
         $this->render('products/category', [
@@ -123,7 +163,9 @@ class ProductController extends Controller {
             'total_pages' => $totalPages,
             'breadcrumbs' => $this->categoryModel->getCategoryPath($id),
             'subcategories' => $this->categoryModel->getSubcategories($id),
-            'accessories' => $this->categoryModel->getAccessories($id)
+            'accessories' => $this->categoryModel->getAccessories($id),
+            'featuredProducts' => $featuredProducts,
+            'bestSellingProducts' => $bestSellingProducts
         ]);
     }
 

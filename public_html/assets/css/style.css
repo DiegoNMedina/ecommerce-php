@@ -198,11 +198,36 @@ footer h5 {
 
     .card-deck {
         margin-right: 0;
-        margin-left: 0;
     }
+}
 
-    .card {
-        margin-bottom: 1rem;
+/* Sidebar de filtros */
+.sticky-top {
+    position: sticky;
+    top: 20px;
+    z-index: 1020;
+}
+
+/* Mejorar el diseño de los filtros */
+.form-check {
+    margin-bottom: 0.5rem;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+/* Responsive para el sidebar */
+@media (max-width: 768px) {
+    .sticky-top {
+        position: relative;
+        top: 0;
     }
 }
 

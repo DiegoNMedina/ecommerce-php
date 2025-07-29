@@ -2,19 +2,16 @@
 
 namespace Core;
 
-class Router
-{
+class Router {
     private array $routes = [];
     private string $basePath;
     private ?string $matchedRoute = null;
 
-    public function __construct(string $basePath = '')
-    {
+    public function __construct(string $basePath = '') {
         $this->basePath = rtrim($basePath, '/');
     }
 
-    public function add(string $method, string $pattern, array $handler): void
-    {
+    public function add(string $method, string $pattern, array $handler): void {
         $pattern = $this->basePath . '/' . trim($pattern, '/');
         $pattern = preg_replace('/\/+/', '/', $pattern);
 
@@ -26,18 +23,15 @@ class Router
         ];
     }
 
-    public function get(string $pattern, array $handler): void
-    {
+    public function get(string $pattern, array $handler): void {
         $this->add('GET', $pattern, $handler);
     }
 
-    public function post(string $pattern, array $handler): void
-    {
+    public function post(string $pattern, array $handler): void {
         $this->add('POST', $pattern, $handler);
     }
 
-    public function match(): ?array
-    {
+    public function match(): ?array {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestUri = urldecode($requestUri);
@@ -60,8 +54,7 @@ class Router
         return null;
     }
 
-    public function dispatch(): void
-    {
+    public function dispatch(): void {
         $route = $this->match();
 
         if (!$route) {
@@ -72,7 +65,7 @@ class Router
 
         // Establecer código de estado 200 para rutas encontradas
         http_response_code(200);
-
+        
         [$controller, $action] = $route['handler'];
         $params = $route['params'];
 
@@ -89,8 +82,7 @@ class Router
         call_user_func_array([$controller, $action], $params);
     }
 
-    public function getMatchedRoute(): ?string
-    {
+    public function getMatchedRoute(): ?string {
         return $this->matchedRoute;
     }
 }

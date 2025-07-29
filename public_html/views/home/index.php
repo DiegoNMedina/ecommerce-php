@@ -82,6 +82,73 @@
     </div>
 </div>
 
+<div class="best-selling-products mb-5">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-fire text-danger me-2"></i>Productos Más Vendidos
+    </h2>
+    <div class="row">
+        <?php foreach ($bestSellingProducts as $product): ?>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 border-warning">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-trophy"></i> Best Seller
+                            </span>
+                            <span class="badge bg-success">
+                                <?= $product['sales_count'] ?> vendidos
+                            </span>
+                        </div>
+                        <h5 class="card-title">
+                            <a href="/ecommerce-php/product/<?= $product['id'] ?>" class="text-decoration-none">
+                                <?= htmlspecialchars($product['brand'] . ' ' . $product['model']) ?>
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <?php 
+                            $specs = json_decode($product['specifications'], true);
+                            echo htmlspecialchars($specs['CPU'] . ' / ' . $specs['RAM']);
+                            ?>
+                        </p>
+                        <div class="price-section">
+                            <h4 class="text-primary mb-2">$<?= number_format($product['price'], 2) ?></h4>
+                            <small class="text-muted d-block">
+                                Desde $<?= number_format($product['installments'][12], 2) ?> mensuales
+                            </small>
+                        </div>
+                        <div class="mt-3">
+                            <span class="text-muted">
+                                <i class="fas fa-star text-warning"></i> <?= number_format($product['avg_rating'] ?? 0, 1) ?>
+                            </span>
+                            <span class="text-muted ms-2">
+                                <i class="fas fa-comment"></i> <?= $product['comment_count'] ?>
+                            </span>
+                            <span class="text-muted ms-2">
+                                <i class="fas fa-eye"></i> <?= $product['visits'] ?>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-grid gap-2">
+                            <a href="/ecommerce-php/product/<?= $product['id'] ?>" class="btn btn-primary">
+                                Ver Detalles
+                            </a>
+                            <a href="/ecommerce-php/calculator?price=<?= $product['price'] ?>" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-calculator"></i> Calcular Cuotas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <div class="text-center">
+        <a href="/ecommerce-php/best-selling" class="btn btn-warning">
+            <i class="fas fa-fire me-1"></i>Ver Todos los Más Vendidos
+        </a>
+    </div>
+</div>
+
 <div class="category-products">
     <?php foreach ($mostVisitedByCategory as $categoryName => $products): ?>
         <div class="mb-5">
