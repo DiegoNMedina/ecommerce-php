@@ -24,7 +24,7 @@ INSTRUCCIONES DE INSTALACIÓN
 4. Importar la base de datos usando el script SQL proporcionado
 5. Configurar los parámetros de conexión en el archivo de configuración
 
-ACTIVIDADES COMPLETADAS
+ACTIVIDADES COMPLETADAS - TODAS NIVEL DESDE BASICO A AVANZADO
 - Creacion de la base de datos 
 - Estructura MVC implementada
 - Sistema de productos con categorías
