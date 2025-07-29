@@ -165,22 +165,63 @@
                 <ul class="pagination justify-content-center">
                     <?php if ($current_page > 1): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $current_page - 1 ?>">
+                            <a class="page-link" href="?page=1" title="Primera página">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?= $current_page - 1 ?>" title="Página anterior">
                                 <i class="fas fa-chevron-left"></i>
                             </a>
                         </li>
                     <?php endif; ?>
 
-                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <?php
+                    // Lógica de paginación inteligente
+                    $range = 2; // Mostrar 2 páginas antes y después de la actual
+                    $start = max(1, $current_page - $range);
+                    $end = min($total_pages, $current_page + $range);
+                    
+                    // Mostrar primera página si no está en el rango
+                    if ($start > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">1</a>
+                        </li>
+                        <?php if ($start > 2): ?>
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                    <?php for ($i = $start; $i <= $end; $i++): ?>
                         <li class="page-item <?= $i === $current_page ? 'active' : '' ?>">
                             <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
 
+                    <?php 
+                    // Mostrar última página si no está en el rango
+                    if ($end < $total_pages): ?>
+                        <?php if ($end < $total_pages - 1): ?>
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        <?php endif; ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?= $total_pages ?>"><?= $total_pages ?></a>
+                        </li>
+                    <?php endif; ?>
+
                     <?php if ($current_page < $total_pages): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $current_page + 1 ?>">
+                            <a class="page-link" href="?page=<?= $current_page + 1 ?>" title="Página siguiente">
                                 <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?= $total_pages ?>" title="Última página">
+                                <i class="fas fa-angle-double-right"></i>
                             </a>
                         </li>
                     <?php endif; ?>

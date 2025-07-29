@@ -59,7 +59,7 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Custom JavaScript -->
-    <script src="/ecommerce-php/assets/js/main.js"></script>
+    <script src="/ecommerce-php/public_html/assets/js/main.js"></script>
 
     <!-- Calculadora de mensualidades -->
     <script>

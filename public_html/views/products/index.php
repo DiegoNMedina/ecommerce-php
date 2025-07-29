@@ -95,17 +95,28 @@
                                                 desde $<?= number_format($product['price'] / 12, 2) ?>/mes
                                             </small>
                                         </div>
-                                        <?php if (isset($product['rating'])): ?>
+                                        <?php if (isset($product['avg_rating']) && $product['avg_rating'] > 0): ?>
                                             <div class="rating-container text-end">
                                                 <div class="stars">
-                                                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                                                        <?php if ($i <= $product['rating']): ?>
+                                                    <?php 
+                                                    $rating = round($product['avg_rating']);
+                                                    for ($i = 1; $i <= 5; $i++): 
+                                                    ?>
+                                                        <?php if ($i <= $rating): ?>
                                                             <i class="fas fa-star text-warning"></i>
                                                         <?php else: ?>
                                                             <i class="far fa-star text-warning"></i>
                                                         <?php endif; ?>
                                                     <?php endfor; ?>
                                                 </div>
+                                                <small class="text-muted d-block">
+                                                    <?= number_format($product['avg_rating'], 1) ?> 
+                                                    (<?= $product['comment_count'] ?? 0 ?> reseñas)
+                                                </small>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="rating-container text-end">
+                                                <small class="text-muted">Sin calificaciones</small>
                                             </div>
                                         <?php endif; ?>
                                     </div>

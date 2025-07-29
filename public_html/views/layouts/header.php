@@ -36,6 +36,11 @@
                             <a class="nav-link" href="/ecommerce-php/featured">Destacados</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/ecommerce-php/best-selling">
+                                <i class="fas fa-fire me-1"></i>Más Vendidos
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/ecommerce-php/calculator">Calculadora de Pagos</a>
                         </li>
                         <li class="nav-item">

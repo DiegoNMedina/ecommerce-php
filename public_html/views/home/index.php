@@ -124,7 +124,7 @@
                 <?php endforeach; ?>
             </div>
             <div class="text-center">
-                <a href="/ecommerce-php/category/<?= array_key_first($categories) ?>" class="btn btn-link">
+                <a href="/ecommerce-php/category/<?= $categoryIdMap[$categoryName] ?>" class="btn btn-link">
                     Ver más en <?= htmlspecialchars($categoryName) ?> <i class="fas fa-arrow-right"></i>
                 </a>
             </div>

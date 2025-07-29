@@ -123,6 +123,15 @@
 // Validación del formulario
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('installmentCalculator');
+    const priceInput = document.getElementById('price');
+    
+    // Leer el parámetro de precio de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const priceFromUrl = urlParams.get('price');
+    
+    if (priceFromUrl && priceInput) {
+        priceInput.value = priceFromUrl;
+    }
     
     form.addEventListener('submit', function(event) {
         if (!form.checkValidity()) {

@@ -33,7 +33,8 @@ $categories = explode(',', $product['categories']);
                 <i class="fas fa-eye"></i> <?= $product['visits'] ?> visitas
             </span>
             <span class="me-3">
-                <i class="fas fa-thumbs-up"></i> <?= $product['likes'] ?> likes
+                <i class="fas fa-thumbs-up"></i> 
+                <span id="likesCount"><?= $product['likes'] ?></span> likes
             </span>
             <?php if (isset($product['avg_rating'])): ?>
                 <span>
@@ -41,6 +42,12 @@ $categories = explode(',', $product['categories']);
                     <?= number_format($product['avg_rating'], 1) ?>
                 </span>
             <?php endif; ?>
+        </div>
+
+        <div class="like-section mb-3">
+            <button type="button" class="btn btn-outline-primary" id="likeBtn" data-product-id="<?= $product['id'] ?>">
+                <i class="fas fa-heart"></i> Me gusta
+            </button>
         </div>
 
         <div class="price-section mb-4">
@@ -95,6 +102,93 @@ $categories = explode(',', $product['categories']);
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const likeBtn = document.getElementById('likeBtn');
+    const likesCount = document.getElementById('likesCount');
+    
+    likeBtn.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        
+        // Deshabilitar el botón temporalmente
+        likeBtn.disabled = true;
+        
+        fetch(`/ecommerce-php/product/${productId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Actualizar el contador de likes
+                likesCount.textContent = data.likes;
+                
+                // Cambiar el estilo del botón para indicar que se dio like
+                likeBtn.classList.remove('btn-outline-primary');
+                likeBtn.classList.add('btn-primary');
+                likeBtn.innerHTML = '<i class="fas fa-heart"></i> ¡Te gusta!';
+                
+                // Mostrar mensaje de éxito
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-success alert-dismissible fade show mt-2';
+                alert.innerHTML = `
+                    ${data.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                likeBtn.parentNode.appendChild(alert);
+                
+                // Remover la alerta después de 3 segundos
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 3000);
+            } else {
+                // Mostrar mensaje de error
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-danger alert-dismissible fade show mt-2';
+                alert.innerHTML = `
+                    ${data.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                likeBtn.parentNode.appendChild(alert);
+                
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 3000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-danger alert-dismissible fade show mt-2';
+            alert.innerHTML = `
+                Error al procesar la solicitud. Inténtalo de nuevo.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            likeBtn.parentNode.appendChild(alert);
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 3000);
+        })
+        .finally(() => {
+            // Rehabilitar el botón después de 2 segundos
+            setTimeout(() => {
+                likeBtn.disabled = false;
+            }, 2000);
+        });
+    });
+});
+</script>
 
 <div class="row mb-5">
     <div class="col-md-8">
@@ -172,16 +266,3 @@ $categories = explode(',', $product['categories']);
         </div>
     </div>
 </div>
-
-<script>
-$(document).ready(function() {
-    $('#commentForm').on('submit', function(e) {
-        e.preventDefault();
-        $.post($(this).attr('action'), $(this).serialize(), function(response) {
-            if (response.success) {
-                location.reload();
-            }
-        });
-    });
-});
-</script>

@@ -218,7 +218,8 @@
                                                    id="price" 
                                                    name="price" 
                                                    required 
-                                                   min="1">
+                                                   min="1" 
+                                                   step="0.01">
                                         </div>
                                         <div class="invalid-feedback">
                                             Por favor ingresa un precio válido
