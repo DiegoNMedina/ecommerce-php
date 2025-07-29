@@ -53,7 +53,12 @@ class Category extends Model {
     }
 
     public function getCategoryTree(): array {
-        $categories = $this->findAll(['parent_id' => null]);
+        // Obtener categorías principales (parent_id IS NULL)
+        $sql = "SELECT * FROM categories WHERE parent_id IS NULL ORDER BY name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $categories = $stmt->fetchAll();
+        
         return array_map(function($category) {
             $category['children'] = $this->getSubcategories($category['id']);
             return $category;
@@ -86,13 +91,30 @@ class Category extends Model {
     }
 
     public function getProductCount(int $categoryId): int {
-        $sql = "SELECT COUNT(DISTINCT p.id) 
-                FROM products p 
-                JOIN product_categories pc ON p.id = pc.product_id 
-                WHERE pc.category_id = ?";
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$categoryId]);
+        // Verificar si es una categoría principal (parent_id IS NULL)
+        $categoryInfo = $this->find($categoryId);
+        
+        if ($categoryInfo && $categoryInfo['parent_id'] === null) {
+            // Es categoría principal: contar productos de esta categoría Y sus subcategorías
+            $sql = "SELECT COUNT(DISTINCT p.id) 
+                    FROM products p 
+                    JOIN product_categories pc ON p.id = pc.product_id 
+                    JOIN categories c ON pc.category_id = c.id
+                    WHERE c.id = ? OR c.parent_id = ?";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$categoryId, $categoryId]);
+        } else {
+            // Es subcategoría: contar solo productos directos
+            $sql = "SELECT COUNT(DISTINCT p.id) 
+                    FROM products p 
+                    JOIN product_categories pc ON p.id = pc.product_id 
+                    WHERE pc.category_id = ?";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$categoryId]);
+        }
+        
         return (int) $stmt->fetchColumn();
     }
 
